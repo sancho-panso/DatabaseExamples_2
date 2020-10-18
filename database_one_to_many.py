@@ -1,6 +1,8 @@
 import sqlite3
 
 
+# EXAMPLE Of 1-to-Many Database
+
 class DatabaseContextManager(object):
     def __init__(self, path):
         self.path = path
@@ -42,11 +44,13 @@ def create_transaction(amount: float, send_to_account: str, sender: int):
     with DatabaseContextManager("db") as db:
         db.execute(query, parameters)
 
-def create_account(balance:int, credit_rating: int):
+
+def create_account(balance: int, credit_rating: int):
     query = """INSERT INTO Accounts(balance, credit_rating) VALUES(?,?)"""
     parameters = [balance, credit_rating]
     with DatabaseContextManager("db") as db:
         db.execute(query, parameters)
+
 
 def get_transactions():
     query = """SELECT * FROM Transactions"""
@@ -56,6 +60,7 @@ def get_transactions():
             print(row)
     print("--------------------------------------------------------")
 
+
 def get_accounts():
     query = """SELECT * FROM Accounts"""
     with DatabaseContextManager("db") as db:
@@ -63,15 +68,14 @@ def get_accounts():
         db.lastrowid
         for row in db.fetchall():
             print(row)
-
-
     print("------------------------------------------------------------")
+
 
 def update_transaction(amount: float, id: int):
     query = """UPDATE Transactions
                 SET amount = ?
                 WHERE id = ?"""
-    parameters= [amount, id]
+    parameters = [amount, id]
     with DatabaseContextManager("db") as db:
         db.execute(query, parameters)
 
@@ -80,15 +84,10 @@ def update_accounts(balance: float, id: int):
     query = """UPDATE Transactions
                 SET balance = ?
                 WHERE id = ?"""
-    parameters= [balance, id]
+    parameters = [balance, id]
     with DatabaseContextManager("db") as db:
         db.execute(query, parameters)
-#
-# create_account(100, 10)
-# create_account(200, 20)
-# create_transaction(20, "LT2982837579283", 1)
-get_accounts()
-get_transactions()
+
 
 def get_account_transcations():
     query = """SELECT * FROM Transactions
@@ -98,5 +97,3 @@ def get_account_transcations():
         db.execute(query)
         for row in db.fetchall():
             print(row)
-
-get_account_transcations()

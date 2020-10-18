@@ -1,6 +1,9 @@
 import sqlite3
 
 
+# EXAMPLE Of 1-to-1 Database
+
+
 class DatabaseContextManager(object):
     def __init__(self, path):
         self.path = path
@@ -21,8 +24,7 @@ def create_table_Person():
                 name TEXT,
                 last_name TEXT,
                 SSN_ID INTEGER,
-                FOREIGN KEY (SSN_ID) REFERENCES SSN(id)
-                )"""
+                FOREIGN KEY (SSN_ID) REFERENCES SSN(id))"""
     with DatabaseContextManager("db") as db:
         db.execute(query)
 
@@ -59,9 +61,6 @@ def create_one_to_one(name: str, last_name: str, number: int):
         update_person(db, ssn_id, last_person_id)
 
 
-create_one_to_one("john", "doyle", 5282757373)
-
-
 def get_table_person():
     query = """SELECT * FROM Person"""
     with DatabaseContextManager("db") as db:
@@ -78,6 +77,7 @@ def get_table_SSN():
         for row in db.fetchall():
             print(row)
 
+
 def get_person_ssn():
     query = """SELECT * FROM SSN
                 JOIN Person
@@ -86,6 +86,3 @@ def get_person_ssn():
         db.execute(query)
         for row in db.fetchall():
             print(row)
-
-
-get_person_ssn()
