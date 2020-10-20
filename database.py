@@ -140,3 +140,8 @@ def drop_table():
     query = """DROP TABLE Library"""
     with DatabaseContextManager("db") as db:
         db.execute(query)
+
+
+
+
+
